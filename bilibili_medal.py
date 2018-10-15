@@ -8,25 +8,42 @@ import requests
 import re
 import time
 import json
+import threading
 
 def get_medal(RoomID):
     UidUrl = 'https://api.live.bilibili.com/live_user/v1/UserInfo/get_anchor_in_room?roomid=%d' % RoomID
     UidData = requests.get(UidUrl).content
-    Uid = json.loads(UidData)['data']['info']['uid']
-    url = 'https://api.live.bilibili.com/rankdb/v1/RoomRank/webMedalRank?roomid=%d&ruid=%d' % (RoomID,Uid)
-    data = requests.get(url).content
-    medal_name = json.loads(data)['data']['list'][0]['medal_name']
-    print(medal_name)
-    return Uid,medal_name
-
-for RoomID in range(4028602,5000000):
     print(RoomID)
     try:
-        Uid,medal_name = get_medal(RoomID)
+        Uid = json.loads(UidData)['data']['info']['uid']
+        url = 'https://api.live.bilibili.com/rankdb/v1/RoomRank/webMedalRank?roomid=%d&ruid=%d' % (RoomID,Uid)
+        data = requests.get(url).content
+        medal_name = json.loads(data)['data']['list'][0]['medal_name']
+    except Exception :
+        medal_name = 0
+    if(medal_name):
         with open('medal_name.txt','a') as f :
             f.writelines([str(RoomID),',',str(medal_name),'\n'])
-    except Exception as e:
-        pass
+        
 
 
+def main():
+    ##创建线程池
+    threads = []
+    threadsNum=10
+    for i in range(0,threadsNum):
+        threads.append(threading.Thread())
 
+    RoomID=1000 ##起始房间号
+    while RoomID<1000000: ##终止房间号
+        for i in range(0,threadsNum): 
+            if threads[i].isAlive()==False:
+                threads[i]=threading.Thread(target=get_medal,args=(RoomID,))
+                threads[i].start()
+                RoomID+=1
+    print('超时等待')
+    sleep(30) ##超时等待
+
+
+if __name__ == "__main__":
+    main()
