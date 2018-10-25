@@ -12,7 +12,8 @@ import threading
 
 def get_medal(RoomID):
     UidUrl = 'https://api.live.bilibili.com/live_user/v1/UserInfo/get_anchor_in_room?roomid=%d' % RoomID
-    UidData = requests.get(UidUrl).content
+    #UidData = requests.get(UidUrl).content
+    UidData = requests.get(UidUrl).text
     print(RoomID)
     try:
         Uid = json.loads(UidData)['data']['info']['uid']
