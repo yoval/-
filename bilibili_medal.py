@@ -17,7 +17,8 @@ def get_medal(RoomID):
     try:
         Uid = json.loads(UidData)['data']['info']['uid']
         url = 'https://api.live.bilibili.com/rankdb/v1/RoomRank/webMedalRank?roomid=%d&ruid=%d' % (RoomID,Uid)
-        data = requests.get(url).content
+        #data = requests.get(url).content #windows
+        data = requests.get(url).text #lunix
         medal_name = json.loads(data)['data']['list'][0]['medal_name']
     except Exception :
         medal_name = 0
