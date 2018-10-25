@@ -32,7 +32,8 @@ def get_medal(RoomID):
 def main():
     ##创建线程池
     threads = []
-    threadsNum=10
+#    threadsNum=10
+    threadsNum=5
     for i in range(0,threadsNum):
         threads.append(threading.Thread())
 
