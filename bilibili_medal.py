@@ -10,6 +10,10 @@ import time
 import json
 import threading
 
+
+threadsNum = input('threadsNum:')
+threadsNum = int(threadsNum)
+
 def get_medal(RoomID):
     UidUrl = 'https://api.live.bilibili.com/live_user/v1/UserInfo/get_anchor_in_room?roomid=%d' % RoomID
     #UidData = requests.get(UidUrl).content
@@ -33,7 +37,6 @@ def main():
     ##创建线程池
     threads = []
 #    threadsNum=10
-    threadsNum=5
     for i in range(0,threadsNum):
         threads.append(threading.Thread())
 
