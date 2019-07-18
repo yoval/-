@@ -39,7 +39,7 @@ def main():
     for i in range(0,threadsNum):
         threads.append(threading.Thread())
 
-    uid = 1290222 ##起始房间号
+    uid = 3202174 ##起始房间号
     while uid<5000000: ##终止房间号
         for i in range(0,threadsNum): 
             if threads[i].isAlive()==False:
